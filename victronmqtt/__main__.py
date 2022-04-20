@@ -15,7 +15,7 @@ global_windowing = None
 
 def setup_devices():
     global client, global_name, global_windowing
-    device = Device("HQ2105E3DT4", global_name, "1.0", "SmartSolar 7510", "Victron")
+    device = Device(global_name.lower(), global_name, "1.0", "SmartSolar 7510", "Victron")
     sensor_mapping["H19"] = Sensor(
         client,
         "Yield Total",
