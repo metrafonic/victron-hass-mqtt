@@ -142,6 +142,7 @@ def main():
     if args.tls:
         client.tls_set(args.ca_path, tls_version=ssl.PROTOCOL_TLSv1_2)
     client.connect(args.broker, args.port, 60)
+    print(f"Successfully started!")
     client.loop_forever()
 
 if __name__ == '__main__':
