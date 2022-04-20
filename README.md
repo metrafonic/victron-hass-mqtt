@@ -9,7 +9,7 @@ Hacked together based on code from:
 ## Installation
 Install via PIP:
 ```commandline
-pip3 install git+https://github.com/metrafonic/victron-mqtt
+pip3 install git+https://github.com/metrafonic/victron-hass-mqtt
 ```
 This should place an entrypoint for the code at `~/.local/bin/victron-mqtt`. 
 
