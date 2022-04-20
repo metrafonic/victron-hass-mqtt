@@ -10,10 +10,11 @@ sensor_mapping = {}
 
 client = None
 ve = None
+global_name = None
 
 def setup_devices():
-    global client
-    device = Device("HQ2105E3DT4", "Mobile-3", "1.0", "SmartSolar 7510", "Victron")
+    global client, global_name
+    device = Device("HQ2105E3DT4", global_name, "1.0", "SmartSolar 7510", "Victron")
     sensor_mapping["H19"] = Sensor(
         client,
         "Yield Total",
@@ -115,7 +116,8 @@ def on_publish(*args, **kwargs):
 def main():
     global client, ve
     parser = argparse.ArgumentParser(description='Process VE.Direct protocol')
-    parser.add_argument('--tty', help='Serial port')
+    parser.add_argument('--tty', help='Serial port', required=True)
+    parser.add_argument('--name', help='MQTT Identifier', required=True)
     parser.add_argument('--timeout', help='Serial port read timeout', type=int, default='60')
     parser.add_argument('--broker', help='MQTT broker address', type=str, default='test.mosquitto.org')
     parser.add_argument('--port', help='MQTT broker port', type=int, default='1883')
