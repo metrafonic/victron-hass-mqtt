@@ -11,9 +11,10 @@ sensor_mapping = {}
 client = None
 ve = None
 global_name = None
+global_windowing = None
 
 def setup_devices():
-    global client, global_name
+    global client, global_name, global_windowing
     device = Device("HQ2105E3DT4", global_name, "1.0", "SmartSolar 7510", "Victron")
     sensor_mapping["H19"] = Sensor(
         client,
@@ -24,7 +25,7 @@ def setup_devices():
         device_class="energy",
         state_class="total_increasing",
         multiplier=0.01,
-        mov_avg=60
+        mov_avg=global_windowing
     )
     sensor_mapping["H20"] = Sensor(
         client,
@@ -35,7 +36,7 @@ def setup_devices():
         device_class="energy",
         state_class="total_increasing",
         multiplier=0.01,
-        mov_avg=60
+        mov_avg=global_windowing
     )
     sensor_mapping["V"] = Sensor(
         client,
@@ -46,7 +47,7 @@ def setup_devices():
         device_class="voltage",
         state_class="measurement",
         multiplier=0.001,
-        mov_avg=60
+        mov_avg=global_windowing
     )
     sensor_mapping["VPV"] = Sensor(
         client,
@@ -57,7 +58,7 @@ def setup_devices():
         device_class="voltage",
         state_class="measurement",
         multiplier=0.001,
-        mov_avg=60
+        mov_avg=global_windowing
     )
     sensor_mapping["I"] = Sensor(
         client,
@@ -68,7 +69,7 @@ def setup_devices():
         device_class="current",
         state_class="measurement",
         multiplier=0.001,
-        mov_avg=60
+        mov_avg=global_windowing
     )
     sensor_mapping["IL"] = Sensor(
         client,
@@ -79,7 +80,7 @@ def setup_devices():
         device_class="current",
         state_class="measurement",
         multiplier=0.001,
-        mov_avg=60
+        mov_avg=global_windowing
     )
     sensor_mapping["PPV"] = Sensor(
         client,
@@ -89,7 +90,7 @@ def setup_devices():
         unit_of_measurement="W",
         device_class="power",
         state_class="measurement",
-        mov_avg=60
+        mov_avg=global_windowing
     )
 
 
@@ -114,11 +115,12 @@ def on_publish(*args, **kwargs):
 
 
 def main():
-    global client, ve
+    global client, ve, global_name, global_windowing
     parser = argparse.ArgumentParser(description='Process VE.Direct protocol')
     parser.add_argument('--tty', help='Serial port', required=True)
     parser.add_argument('--name', help='MQTT Identifier', required=True)
     parser.add_argument('--timeout', help='Serial port read timeout', type=int, default='60')
+    parser.add_argument('--window_size', help='Sliding window moving average', type=int, default='60')
     parser.add_argument('--broker', help='MQTT broker address', type=str, default='test.mosquitto.org')
     parser.add_argument('--port', help='MQTT broker port', type=int, default='1883')
     parser.add_argument('--username', help='MQTT broker port', default=None)
@@ -127,6 +129,8 @@ def main():
     parser.add_argument('--ca_path', help='TLS CA cert path (required if using TLS)',
                         default="/etc/ssl/certs/ca-certificates.crt")
     args = parser.parse_args()
+    global_name = args.name
+    global_windowing = args.window_size
     ve = Vedirect(args.tty, args.timeout)
 
     client = mqtt.Client()
