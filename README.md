@@ -36,6 +36,8 @@ optional arguments:
   --tls                 Use tls
   --ca_path CA_PATH     TLS CA cert path (required if using TLS)
 ```
+NOTE: The windowing function defaults to 60, meaning that it will wait for 60 messages per variable, and average them out before sending.
+This means that it will take up to 2 minutes for the first variables to appear in home-assistant.
 
 ## System service
 Add the following to `/lib/systemd/system/victron.service`:
