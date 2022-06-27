@@ -4,7 +4,7 @@ import threading
 
 import paho.mqtt.client as mqtt
 from vedirect import Vedirect
-from victronmqtt.h import Device, Sensor
+from victron_hass_mqtt.h import Device, Sensor
 
 sensor_mapping = {}
 
