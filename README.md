@@ -1,4 +1,6 @@
 # Victron HASS MQTT
+⚠️ **WARNING** This version is no longer under development, see this project instead https://github.com/metrafonic/asyncio-vedirect-mqtt
+
 
 Python application for transmitting VE.Direct data to an mqtt server via the Home Assistant MQTT specification to enable automatic device discovery
 
